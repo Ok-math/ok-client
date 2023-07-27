@@ -9,7 +9,7 @@ Future<LoginResponseBody> Login(LoginRequestBody requestBody) async{
   LoginResponseBody responseBody;
   var res = LoginResponseBody(id: "0", password: "0", name: "0", result: true);
   var response = await http.post(
-      Uri.parse('http://localhost:8080/user/login'),
+      Uri.parse('http://localhost:8080/user/signup'),
       headers: {
         "Access-Control-Allow-Origin": "*",
         'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ Future<LoginResponseBody> Login(LoginRequestBody requestBody) async{
 
   if(response.statusCode == 200){
     print("ok200");
-    res = await LoginResponseBody.fromJson(json.decode(response.body));
+    res = LoginResponseBody.fromJson(json.decode(response.body));
     print(res.id);
     print(res.name);
     return res;

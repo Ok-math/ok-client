@@ -19,10 +19,10 @@ class LoginResponseBody{
 
   factory LoginResponseBody.fromJson(Map<String, dynamic>json){
     return LoginResponseBody(
-      id: json["id"],
-      password: json["password"],
-      name: json["name"],
-      result: json["result"],
+      id: json["id"] ?? 'null',
+      password: json["password"] ?? 'null',
+      name: json["name"] ?? 'null',
+      result: json["result"] as bool,
     );
   }
 }

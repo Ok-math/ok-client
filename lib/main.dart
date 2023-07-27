@@ -84,24 +84,16 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             buildColumn(res),
-
-
-            // FutureBuilder<LoginResponseBody>(
-            //     future: login,
-            //     builder: (context, snapshot){
-            //       if(snapshot.hasData){
-            //         return buildColumn(snapshot);
-            //       }
-            //       else{
-            //         return CircularProgressIndicator();
-            //       }
-            //     },
-            // ),
           ],
         ),
       ),
     );
   }
+
+
+
+
+
   Widget buildColumn(LoginResponseBody value) {
     if(flag==1){
       print(value.id);
