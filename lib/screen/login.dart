@@ -7,16 +7,7 @@ import 'package:ok_client/responsebody/LoginResponse.dart';
 import 'package:ok_client/screen/calender.dart';
 import 'package:ok_client/screen/signup.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: LoginPage(),
-    );
-  }
-}
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -93,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Color(0xff828181),
                     fontSize: 15,
                   ),
-                  prefixIcon: Icon(Icons.lock_open_outlined),
+                  prefixIcon: Icon(Icons.lock_outlined),
                   filled: true,
                   fillColor: Color(0xffEEEEEE),
                 ),
@@ -111,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                       onPressed: (){
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Signup()),
+                          MaterialPageRoute(builder: (context) => const SignupPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -146,6 +137,9 @@ class _LoginPageState extends State<LoginPage> {
                             res = value,
                           //main페이지로 이동 함수(userId 파라미터)
                         );
+
+                        //로그인이 성공하면
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const Calenderpage()),
