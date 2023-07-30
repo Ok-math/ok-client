@@ -6,10 +6,10 @@ import 'package:ok_client/responsebody/LoginResponse.dart';
 
 
 Future<LoginResponseBody> Login(LoginRequestBody requestBody) async{
-  LoginResponseBody responseBody;
-  var res = LoginResponseBody(id: "0", password: "0", name: "0", result: true);
+  var responseBody = LoginResponseBody(id: "0", password: "0", name: "0", result: true);
   var response = await http.post(
-      Uri.parse('http://localhost:8080/user/signup'),
+      //안드로이드 기기에서 작동시 localhost 대신 무선LAN IPv4값으로 수정
+      Uri.parse('http://localhost:8080/user/login'),
       headers: {
         "Access-Control-Allow-Origin": "*",
         'Content-Type': 'application/json',
@@ -23,13 +23,14 @@ Future<LoginResponseBody> Login(LoginRequestBody requestBody) async{
 
   if(response.statusCode == 200){
     print("ok200");
-    res = LoginResponseBody.fromJson(json.decode(response.body));
-    print(res.id);
-    print(res.name);
-    return res;
+    responseBody = LoginResponseBody.fromJson(json.decode(response.body));
+    print(responseBody.id);
+    print(responseBody.name);
+    print(responseBody.result);
+    return responseBody;
   }
   else{
-    return res;
+    return responseBody;
   }
   //return LoginResponseBody.fromJson(json.decode(response.body));
 }
