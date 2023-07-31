@@ -1,5 +1,3 @@
-import "dart:js_interop";
-
 import "package:flutter/material.dart";
 import "package:ok_client/controller/SignupController.dart";
 import "package:ok_client/requestbody/LoginRequest.dart";
@@ -28,6 +26,9 @@ class SingupState extends State<SignupPage>{
     return Scaffold(
       backgroundColor: Color(0xffFAFAFA),
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Colors.black
+        ),
         title:  const Text(
           "회원가입",
           style: TextStyle(
