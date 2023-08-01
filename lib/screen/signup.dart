@@ -27,7 +27,7 @@ class SingupState extends State<SignupPage>{
       backgroundColor: Color(0xffFAFAFA),
       appBar: AppBar(
         iconTheme: IconThemeData(
-          color: Colors.black
+            color: Colors.black
         ),
         title:  const Text(
           "회원가입",
@@ -165,7 +165,7 @@ class SingupState extends State<SignupPage>{
                       request.name = _nameEditingController.text;
 
                       Signup(request).then((value) =>
-                        response = value,
+                      response = value,
 
 
                       );
@@ -190,30 +190,82 @@ class SingupState extends State<SignupPage>{
       barrierDismissible: true,
       builder: (BuildContext context){
         return AlertDialog(
-          actions: [
-            ElevatedButton(
-              onPressed: (){
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const JobInfoPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xffA1A8D6),
-                //padding: EdgeInsets.symmetric(vertical: 15.0),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
+          title: Column(
+            children: <Widget>[
+              Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color(0xffEEF0FF),
+                  ),
+                  child: Icon(Icons.check_rounded,
+                    color: Color(0xffA1A8D6),
+                  )
               ),
-              child: Text("추가정보를 등록하세요",
+              Text("회원가입 완료",
                 style: TextStyle(
-                  color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              )
+            ],
+          ),
+
+          content: SizedBox(
+            height: 50,
+            child: Column(
+              children: [
+
+                Text("지금 바로 시급계산 서비스를",
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                Text("이용해 보세요",
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          actions: [
+            Center(
+              child: ElevatedButton(
+
+                onPressed: (){
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const JobInfoPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xffA1A8D6),
+                  //alignment: Alignment.center,
+                  //padding: EdgeInsets.symmetric(vertical: 15.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 30,vertical: 18),
+                ),
+                child: Text("추가정보를 등록하세요",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
               ),
             ),
           ],
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
         );
       },
     );
