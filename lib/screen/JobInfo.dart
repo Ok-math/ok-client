@@ -1,21 +1,28 @@
+import "dart:js_util";
+
 import "package:flutter/material.dart";
+import "package:ok_client/controller/JobInfoController.dart";
+import "package:ok_client/requestbody/JobInfoRequestBody.dart";
+import "package:ok_client/responsebody/JobInfoResponseBody.dart";
 
 
 
 class JobInfoPage extends StatefulWidget{
-  const JobInfoPage({Key? key}): super(key:key);
+  final String userName;
+  const JobInfoPage({Key? key,required this.userName}): super(key:key);
 
   @override
   _JobInfoState createState() => _JobInfoState();
 }
 
 class _JobInfoState extends State<JobInfoPage>{
-  // final _nameEditingController = TextEditingController();
-  // final _idEditingController = TextEditingController();
-  // final _passwordEditingController = TextEditingController();
-  // final _passwordCheckingController = TextEditingController();
-  // var request = LoginRequestBody(id: "", password: "");
-  // var response = LoginResponseBody(id: "", password: "", name: "", result: false);
+
+
+  final _nameEditingController = TextEditingController();
+  final _moneyEditingController = TextEditingController();
+
+  var request = JobInfoRequestBody(userId: "", name: "", money: 0, dayAndTimes: newObject());
+  var response = JobInfoResponseBody(id: 0, name: "", result: false);
   final isSelected = [false,false,false,false,false,false,false];
   var textColor = [0xff828181,0xff828181,0xff828181,0xff828181,0xff828181,0xff828181,0xff828181];
   var buttonColor = [0xffEEEEEE,0xffEEEEEE,0xffEEEEEE,0xffEEEEEE,0xffEEEEEE,0xffEEEEEE,0xffEEEEEE,];
@@ -24,8 +31,13 @@ class _JobInfoState extends State<JobInfoPage>{
   var selectedDate = 0;
   var _itemCounter = 0;
 
+
+  List<DayAndTime> dayAndTimes = [];
+
   @override
   Widget build(BuildContext context){
+    String userName = widget.userName;
+
     return Scaffold(
       backgroundColor: Color(0xffFAFAFA),
       appBar: AppBar(
@@ -62,6 +74,7 @@ class _JobInfoState extends State<JobInfoPage>{
                   fit: FlexFit.tight,
                   flex: 2,
                   child: TextField(
+                    controller: _nameEditingController,
                     textAlign: TextAlign.end,
                     decoration: InputDecoration(
                       focusedBorder: InputBorder.none,
@@ -99,6 +112,7 @@ class _JobInfoState extends State<JobInfoPage>{
                   fit: FlexFit.tight,
                   flex: 2,
                   child: TextField(
+                    controller: _moneyEditingController,
                     textAlign: TextAlign.end,
                     decoration: InputDecoration(
                       focusedBorder: InputBorder.none,
@@ -311,7 +325,7 @@ class _JobInfoState extends State<JobInfoPage>{
                         children: [
                           Flexible(
                             fit: FlexFit.tight,
-                            child: Text(_date[selectedDate],
+                            child: Text(dayAndTimes[index].day,
                               style: TextStyle(
                                 fontSize: 15,
                               ),
@@ -323,6 +337,13 @@ class _JobInfoState extends State<JobInfoPage>{
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: TextField(
+                                onChanged: (text){
+                                  for(int i=0;i<dayAndTimes.length;i++){
+                                    if(dayAndTimes[i].day==dayAndTimes[index].day){
+                                      dayAndTimes[i].startTime = text;
+                                    }
+                                  }
+                                },
                                 textAlign: TextAlign.end,
                                 decoration: InputDecoration(
                                   focusedBorder: InputBorder.none,
@@ -346,6 +367,13 @@ class _JobInfoState extends State<JobInfoPage>{
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: TextField(
+                                onChanged: (text){
+                                  for(int i=0;i<dayAndTimes.length;i++){
+                                    if(dayAndTimes[i].day==dayAndTimes[index].day){
+                                      dayAndTimes[i].finishTime = text;
+                                    }
+                                  }
+                                },
                                 textAlign: TextAlign.end,
                                 decoration: InputDecoration(
                                   focusedBorder: InputBorder.none,
@@ -371,6 +399,32 @@ class _JobInfoState extends State<JobInfoPage>{
                   }
               ),
             ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xffA1A8D6),
+                padding: EdgeInsets.symmetric(vertical: 15.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+              ),
+              onPressed: (){
+                request.userId = userName;
+                request.name = _nameEditingController.text;
+                request.money = int.parse(_moneyEditingController.text);
+                request.dayAndTimes = dayAndTimes;
+
+                Jobinfo_save(request).then((value) =>
+                  response = value,
+                );
+              },
+              child: Text("등록하기",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
 
           ],
         ),
@@ -383,6 +437,7 @@ class _JobInfoState extends State<JobInfoPage>{
 
   void daySelect(value){
     selectedDate = value;
+    var point = 0;
 
     if(isSelected[value]==false){
       isSelected[value]=true;
@@ -390,13 +445,22 @@ class _JobInfoState extends State<JobInfoPage>{
       textColor[value] = 0xffA1A8D6;
       borderColor[value] = 0xffA1A8D6;
       _itemCounter+=1;
+
+      var dayAndTime = DayAndTime(startTime: "00:00:00", finishTime: "00:00:00", day: _date[value]);
+      dayAndTimes.add(dayAndTime);
     }
     else{
       isSelected[value]=false;
+      for(int i=0;i<dayAndTimes.length;i++){
+        if(dayAndTimes[i].day==_date[value]){
+          dayAndTimes.removeAt(i);
+        }
+      }
       buttonColor[value] = 0xffEEEEEE;
       textColor[value] = 0xff828181;
       borderColor[value] = 0xffEEEEEE;
       _itemCounter-=1;
+
     }
     setState(() {
     });

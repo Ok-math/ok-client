@@ -19,6 +19,7 @@ class SingupState extends State<SignupPage>{
   final _passwordCheckingController = TextEditingController();
   var request = LoginRequestBody(id: "", password: "");
   var response = LoginResponseBody(id: "", password: "", name: "", result: false);
+  var userName = "";
 
 
   @override
@@ -164,6 +165,7 @@ class SingupState extends State<SignupPage>{
                       request.password = _passwordEditingController.text;
                       request.name = _nameEditingController.text;
 
+                      userName = request.id;
                       Signup(request).then((value) =>
                       response = value,
 
@@ -240,7 +242,7 @@ class SingupState extends State<SignupPage>{
                   Navigator.pop(context);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const JobInfoPage()),
+                    MaterialPageRoute(builder: (context) => JobInfoPage(userName:userName)),
                   );
                 },
                 style: ElevatedButton.styleFrom(
