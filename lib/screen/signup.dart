@@ -9,10 +9,10 @@ class SignupPage extends StatefulWidget{
   const SignupPage({Key? key}): super(key:key);
 
   @override
-  SingupState createState() => SingupState();
+  SignupState createState() => SignupState();
 }
 
-class SingupState extends State<SignupPage>{
+class SignupState extends State<SignupPage>{
   final _nameEditingController = TextEditingController();
   final _idEditingController = TextEditingController();
   final _passwordEditingController = TextEditingController();

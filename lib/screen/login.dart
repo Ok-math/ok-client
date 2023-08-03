@@ -24,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   var res = LoginResponseBody(id: "", password: "", name: "", result: false);
   var requestBody = LoginRequestBody(id: "4", password: "4");
   int flag = 0;
+  String userName = "";
 
 
 
@@ -133,8 +134,11 @@ class _LoginPageState extends State<LoginPage> {
                         requestBody.id = id;
                         requestBody.password = password;
 
+                        userName = requestBody.id;
+
                         Login(requestBody).then((value)=>
                             res = value,
+
                           //main페이지로 이동 함수(userId 파라미터)
                         );
 
@@ -142,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                         Navigator.pop(context);
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const Calenderpage()),
+                          MaterialPageRoute(builder: (context) => CalenderPage(userName:userName)),
                         );
                       },
                       style: ElevatedButton.styleFrom(
