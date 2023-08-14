@@ -7,13 +7,13 @@ class JobInfoRequestBody{
   String userId;
   String name;
   int money;
-  List<DayAndTime> dayAndTimes;
+  List<DayAndTime>? dayAndTimes;
 
   JobInfoRequestBody({
     required this.userId,
     required this.name,
     required this.money,
-    required this.dayAndTimes,
+    this.dayAndTimes,
   });
 
 

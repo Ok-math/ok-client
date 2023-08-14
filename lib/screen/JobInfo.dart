@@ -1,4 +1,4 @@
-import "dart:js_util";
+// import "dart:js_util";
 
 import "package:flutter/material.dart";
 import "package:ok_client/controller/JobInfoController.dart";
@@ -21,7 +21,7 @@ class _JobInfoState extends State<JobInfoPage>{
   final _nameEditingController = TextEditingController();
   final _moneyEditingController = TextEditingController();
 
-  var request = JobInfoRequestBody(userId: "", name: "", money: 0, dayAndTimes: newObject());
+  var request = JobInfoRequestBody(userId: "", name: "", money: 0);
   var response = JobInfoResponseBody(id: 0, name: "", result: false);
   final isSelected = [false,false,false,false,false,false,false];
   var textColor = [0xff828181,0xff828181,0xff828181,0xff828181,0xff828181,0xff828181,0xff828181];

@@ -10,7 +10,7 @@ Future<JobInfoResponseBody> Jobinfo_save(JobInfoRequestBody requestBody) async{
   var responseBody = JobInfoResponseBody(id: 0, name: "0", result: true);
   var response = await http.post(
     //안드로이드 기기에서 작동시 localhost 대신 무선LAN IPv4값으로 수정
-    Uri.parse('http://localhost:8080/jobinfo/save'),
+    Uri.parse('http://172.30.1.34:8080/jobinfo/save'),
     headers: {
       "Access-Control-Allow-Origin": "*",
       'Content-Type': 'application/json',
@@ -20,7 +20,7 @@ Future<JobInfoResponseBody> Jobinfo_save(JobInfoRequestBody requestBody) async{
       "userId": requestBody.userId,
       "name": requestBody.name,
       "money": requestBody.money,
-      "dayAndTimes" : listToJson(requestBody.dayAndTimes)
+      "dayAndTimes" : listToJson(requestBody.dayAndTimes!)
     }),
   );
 
@@ -28,7 +28,7 @@ Future<JobInfoResponseBody> Jobinfo_save(JobInfoRequestBody requestBody) async{
     "userId": requestBody.userId,
     "name": requestBody.name,
     "money": requestBody.money,
-    "dayAndTimes" : listToJson(requestBody.dayAndTimes)
+    "dayAndTimes" : listToJson(requestBody.dayAndTimes!)
   }));
 
   if(response.statusCode == 200){
