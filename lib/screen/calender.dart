@@ -13,6 +13,17 @@ class CalenderPage extends StatefulWidget{
 class CalenderState extends State<CalenderPage>{
   DateTime? selectedDay;
 
+  Map<DateTime, List<Event>> events = {
+    DateTime.utc(2023,8,13) : [ Event('title'), Event('title2') ],
+    DateTime.utc(2023,8,14) : [ Event('title3') ],
+  };
+
+  List<Event> _getEventsForDay(DateTime day) {
+    return events[day] ?? [];
+  }
+
+
+
 
   @override
   Widget build(BuildContext context){
@@ -54,12 +65,15 @@ class CalenderState extends State<CalenderPage>{
                 ),
                 shape: BoxShape.circle,
 
+
               ),
               selectedTextStyle: TextStyle(
                 color: Color(0xffA1A8D6),
-              )
+              ),
+
 
             ),
+            eventLoader: _getEventsForDay,
 
             onDaySelected: (DateTime selectedDay, DateTime focusedDay){
 
@@ -98,9 +112,57 @@ class CalenderState extends State<CalenderPage>{
         context: context,
         builder: (BuildContext context){
           return AlertDialog(
-            title: Text("$date"),
+            title: Column(
+              children: <Widget>[
+                Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xffEEF0FF),
+                    ),
+                    child: Icon(Icons.add,
+                      color: Color(0xffA1A8D6),
+                    )
+                ),
+                Text("알바기록 추가",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                )
+              ],
+            ),
+            content: Column(
+              children: [
+                Text(
+                  "${date}",
+                  style: TextStyle(
+                    fontSize: 13,
+
+
+                ),),
+              ],
+            ),
+            actions: [
+              ElevatedButton(
+                  onPressed: (){
+                    events[date] = [ Event('title3') ];
+                    setState(() {
+                    });
+                  },
+                  child: Text("확인"),
+              ),
+            ],
           );
         }
     );
   }
+}
+
+class Event {
+  String title;
+
+  Event(this.title);
 }
