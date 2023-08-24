@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:ok_client/controller/JobInfoController.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
@@ -25,9 +26,20 @@ class CalenderState extends State<CalenderPage>{
 
 
 
+
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     String userName = widget.userName;
+
+    Future<List<dynamic>> nameList = show_names(userName);
+    List<dynamic> names=["null"];
+    void FutureToList(Future<List<dynamic>> nameList) async{
+      names = await nameList;
+    }
+    FutureToList(nameList);
+
+
 
     return Scaffold(
       backgroundColor: Color(0xffFAFAFA),
@@ -77,7 +89,7 @@ class CalenderState extends State<CalenderPage>{
 
             onDaySelected: (DateTime selectedDay, DateTime focusedDay){
 
-              addForm(selectedDay);
+              addForm(selectedDay, names);
               setState(() {
                 this.selectedDay = selectedDay;
               });
@@ -88,15 +100,15 @@ class CalenderState extends State<CalenderPage>{
                 return false;
               }
               return date.year == selectedDay!.year &&
-              date.month == selectedDay!.month &&
-              date.day == selectedDay!.day;
+                  date.month == selectedDay!.month &&
+                  date.day == selectedDay!.day;
             },
 
             calendarBuilders: CalendarBuilders(
-              dowBuilder: (context, day){
-                //if(day.weekday == 7) return Center(child: Text('Sun',style: TextStyle(color: Colors.red),),);
+                dowBuilder: (context, day){
+                  //if(day.weekday == 7) return Center(child: Text('Sun',style: TextStyle(color: Colors.red),),);
 
-              }
+                }
             ),
           ),
         ],
@@ -107,7 +119,8 @@ class CalenderState extends State<CalenderPage>{
 
 
 
-  void addForm(DateTime date){
+  void addForm(DateTime date, List<dynamic> nameList) {
+
     showDialog(
         context: context,
         builder: (BuildContext context){
@@ -141,18 +154,132 @@ class CalenderState extends State<CalenderPage>{
                   style: TextStyle(
                     fontSize: 13,
 
+                  ),),
+                DropdownButton(
+                    value: nameList[0],
+                    items: nameList.map((item)=>
+                        DropdownMenuItem(
+                            value: item,
+                            child: Text(item)
+                        )).toList(),
+                    onChanged: (value){
 
-                ),),
+                    }
+                ),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Flexible(
+                              fit: FlexFit.tight,
+                              child: Text("시작시간",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Flexible(
+                              fit: FlexFit.tight,
+                              child: Text("종료시간",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Flexible(
+                              fit: FlexFit.tight,
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  hintText: "00:00:00",
+                                  hintStyle: TextStyle(
+                                    color: Color(0xff828181),
+                                    fontSize: 15,
+                                  ),
+                                  filled: true,
+                                  fillColor: Color(0xffEEEEEE),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 3.0),
+                              child: Text("...",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Color(0xff828181)
+                              ),),
+                            ),
+                            Flexible(
+                              fit: FlexFit.tight,
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  focusedBorder: InputBorder.none,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  hintText: "00:00:00",
+                                  hintStyle: TextStyle(
+                                    color: Color(0xff828181),
+                                    fontSize: 15,
+                                  ),
+                                  filled: true,
+                                  fillColor: Color(0xffEEEEEE),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    ],
+                  ),
+                )
+
+
               ],
             ),
             actions: [
-              ElevatedButton(
+              Center(
+                child: ElevatedButton(
                   onPressed: (){
                     events[date] = [ Event('title3') ];
                     setState(() {
                     });
                   },
-                  child: Text("확인"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xffA1A8D6),
+                    //alignment: Alignment.center,
+                    //padding: EdgeInsets.symmetric(vertical: 15.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 30,vertical: 18),
+                  ),
+                  child: Text("추가정보를 등록하세요",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
               ),
             ],
           );

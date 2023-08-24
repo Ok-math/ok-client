@@ -44,14 +44,14 @@ Future<JobInfoResponseBody> Jobinfo_save(JobInfoRequestBody requestBody) async{
   }
 }
 
-Future<List<String>> show_names(String userId)async{
-  List<String> nameList = [];
+Future<List<dynamic>> show_names(String userId) async {
+  List<dynamic> nameList;
 
   Map<String,String> params={
     "id":userId
   };
 
-  var url = Uri.http('http://localhost:8080','/jobinfo/name',params);
+  var url = Uri.http('localhost:8080','/jobinfo/name',params);
 
 
   var response = await http.get(
@@ -65,14 +65,15 @@ Future<List<String>> show_names(String userId)async{
   );
 
 
-  if(response.statusCode == 200){
+  if(response.statusCode == 200) {
     print("ok200");
     nameList = jsonDecode(response.body);
     print(nameList);
+
     return nameList;
   }
   else{
-    return nameList;
+    return Future.value(["없음"]);
   }
 
 }
