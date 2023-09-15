@@ -9,7 +9,7 @@ Future<LoginResponseBody> Login(LoginRequestBody requestBody) async{
   var responseBody = LoginResponseBody(id: "0", password: "0", name: "0", result: true);
   var response = await http.post(
       //안드로이드 기기에서 작동시 localhost 대신 무선LAN IPv4값으로 수정
-      Uri.parse('http://localhost:8080/user/login'),
+      Uri.parse('http://172.30.1.34:8080/user/login'),
       headers: {
         "Access-Control-Allow-Origin": "*",
         'Content-Type': 'application/json',
