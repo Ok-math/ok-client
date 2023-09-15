@@ -417,7 +417,6 @@ class _JobInfoState extends State<JobInfoPage>{
                   response = value,
                 );
               },
-
               child: Text("등록하기",
                 style: TextStyle(
                   color: Colors.white,
